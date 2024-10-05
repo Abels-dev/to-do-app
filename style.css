@@ -145,3 +145,6 @@ label img {
     color: var(--very-dark-grayish-blue-1);
     text-decoration: line-through;
 }
+.options .activeBtn{
+    color: var(--bright-blue);
+}
