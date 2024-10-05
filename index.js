@@ -13,7 +13,7 @@ const renderTask = (id, text, isCompleted) => {
                      <img src="images/icon-check.svg" />
                   </label>
                   <p>${text}</p>
-                  <button class="remove-btn"><img src="images/icon-cross.svg" alt="delete-btn"></button>
+                  <button class="remove-btn"><img src="images/icon-cross.svg" alt="delete-btn" class="remove"></button>
                </div>`;
 };
 const countActiveTasks = () => {
@@ -41,6 +41,7 @@ taskContainer.addEventListener("change", (e) => {
       const id = taskEl.id;
       taskList[id].isCompleted = true;
       tasksLeft.innerText = countActiveTasks();
+      console.log(taskList)
    } else {
       const label = e.target.parentElement;
       const taskEl = label.parentElement;
@@ -50,7 +51,15 @@ taskContainer.addEventListener("change", (e) => {
       tasksLeft.innerText = countActiveTasks();
    }
 });
-
+taskContainer.addEventListener("click",(e)=>{
+       if(e.target.classList.contains("remove")){
+            const id=e.target.parentElement.parentElement.id
+            taskList.splice(id,1)
+            getTasks("All")
+            tasksLeft.innerText = countActiveTasks();
+            console.log(taskList)
+       }
+})
 const getTasks = (status) => {
    taskContainer.innerHTML = "";
    if (status === "All") {
@@ -70,6 +79,7 @@ const getTasks = (status) => {
       });
    }
 };
+
 statusButtons.forEach((statusBtn) => {
    statusBtn.addEventListener("click", () => {
       statusButtons.forEach((btn) => btn.classList.remove("activeBtn"));
