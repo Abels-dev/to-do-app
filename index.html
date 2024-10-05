@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link
+         rel="icon"
+         type="image/png"
+         sizes="32x32"
+         href="./images/favicon-32x32.png" />
+      <link rel="stylesheet" href="style.css" />
+      <title>Frontend Mentor | Todo app</title>
+      <script src="index.js" defer></script>
+   </head>
+   <body>
+      <header>
+         <div class="title">
+            <h1>TODO</h1>
+            <button class="toggle-light">
+               <img src="images/icon-sun.svg" alt="dark-light-toggle" />
+            </button>
+         </div>
+         <div class="create-task">
+            <label>
+               <input type="checkbox" name="option" value="1" />
+               <img src="images/icon-check.svg" />
+            </label>
+            <input type="text" placeholder="Create a new todo..." id="input-task"/>
+         </div>
+      </header>
+      <main>
+         <section>
+            <div class="task-container">
+              <div class="tasks-list" id="task-container">
+
+              </div>
+               <div class="task-footer" id="lastEl">
+                  <p>5 items left</p>
+                  <div class="options">
+                     <div class="task-status">
+                        <button>All</button>
+                        <button>Active</button>
+                        <button>Completed</button>
+                     </div>
+                     <button>Clear Completed</button>
+                  </div>
+               </div>
+            </div>
+         </section>
+      </main>
+   </body>
+</html>
