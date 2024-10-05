@@ -2,7 +2,8 @@ const addedTask = document.getElementById("input-task");
 const taskContainer = document.getElementById("task-container");
 const tasksLeft = document.getElementById("item-left");
 const statusButtons = document.querySelectorAll(".statusBtn");
-const taskList = [];
+const removeAllBtn=document.getElementById("removeAll")
+let taskList = [];
 
 const renderTask = (id, text, isCompleted) => {
    taskContainer.innerHTML += ` <div class="task ${
@@ -41,7 +42,6 @@ taskContainer.addEventListener("change", (e) => {
       const id = taskEl.id;
       taskList[id].isCompleted = true;
       tasksLeft.innerText = countActiveTasks();
-      console.log(taskList)
    } else {
       const label = e.target.parentElement;
       const taskEl = label.parentElement;
@@ -57,7 +57,6 @@ taskContainer.addEventListener("click",(e)=>{
             taskList.splice(id,1)
             getTasks("All")
             tasksLeft.innerText = countActiveTasks();
-            console.log(taskList)
        }
 })
 const getTasks = (status) => {
@@ -79,7 +78,10 @@ const getTasks = (status) => {
       });
    }
 };
-
+removeAllBtn.addEventListener("click",()=>{
+    taskList=taskList.filter(el=>el.isCompleted===false)
+    getTasks("All");
+})
 statusButtons.forEach((statusBtn) => {
    statusBtn.addEventListener("click", () => {
       statusButtons.forEach((btn) => btn.classList.remove("activeBtn"));
