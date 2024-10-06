@@ -2,8 +2,12 @@ const addedTask = document.getElementById("input-task");
 const taskContainer = document.getElementById("task-container");
 const tasksLeft = document.getElementById("item-left");
 const statusButtons = document.querySelectorAll(".statusBtn");
-const removeAllBtn=document.getElementById("removeAll")
-let taskList = [];
+const removeAllBtn = document.getElementById("removeAll");
+const toggleBtn = document.getElementById("toggleBtn");
+const toggleImg = document.getElementById("toggleImg");
+
+let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
+let prefferedTheme = localStorage.getItem("theme") || "dark-mode";
 
 const renderTask = (id, text, isCompleted) => {
    taskContainer.innerHTML += ` <div class="task ${
@@ -17,6 +21,20 @@ const renderTask = (id, text, isCompleted) => {
                   <button class="remove-btn"><img src="images/icon-cross.svg" alt="delete-btn" class="remove"></button>
                </div>`;
 };
+const darkLightModeToggle = () => {
+   if (toggleImg.getAttribute("src") === "images/icon-sun.svg") {
+      toggleImg.setAttribute("src", "images/icon-moon.svg");
+      document.body.classList.toggle("light-mode");
+      document.querySelector("header").classList.toggle("header-light-mode");
+      localStorage.setItem("theme", "light-mode");
+   } else {
+      toggleImg.setAttribute("src", "images/icon-sun.svg");
+      document.body.classList.toggle("light-mode");
+      document.querySelector("header").classList.toggle("header-light-mode");
+      localStorage.setItem("theme", "dark-mode");
+   }
+};
+
 const countActiveTasks = () => {
    let count = 0;
    taskList.forEach((el) => {
@@ -27,6 +45,7 @@ const countActiveTasks = () => {
 const addTasks = () => {
    renderTask(taskList.length, addedTask.value, false);
    taskList.push({ task: addedTask.value, isCompleted: false });
+   localStorage.setItem("tasks", JSON.stringify(taskList));
    tasksLeft.innerText = countActiveTasks();
    addedTask.value = "";
 };
@@ -41,6 +60,7 @@ taskContainer.addEventListener("change", (e) => {
       taskEl.classList.add("checked");
       const id = taskEl.id;
       taskList[id].isCompleted = true;
+      localStorage.setItem("tasks", JSON.stringify(taskList));
       tasksLeft.innerText = countActiveTasks();
    } else {
       const label = e.target.parentElement;
@@ -48,17 +68,19 @@ taskContainer.addEventListener("change", (e) => {
       taskEl.classList.remove("checked");
       const id = taskEl.id;
       taskList[id].isCompleted = false;
+      localStorage.setItem("tasks", JSON.stringify(taskList));
       tasksLeft.innerText = countActiveTasks();
    }
 });
-taskContainer.addEventListener("click",(e)=>{
-       if(e.target.classList.contains("remove")){
-            const id=e.target.parentElement.parentElement.id
-            taskList.splice(id,1)
-            getTasks("All")
-            tasksLeft.innerText = countActiveTasks();
-       }
-})
+taskContainer.addEventListener("click", (e) => {
+   if (e.target.classList.contains("remove")) {
+      const id = e.target.parentElement.parentElement.id;
+      taskList.splice(id, 1);
+      localStorage.setItem("tasks", JSON.stringify(taskList));
+      getTasks("All");
+      tasksLeft.innerText = countActiveTasks();
+   }
+});
 const getTasks = (status) => {
    taskContainer.innerHTML = "";
    if (status === "All") {
@@ -78,10 +100,11 @@ const getTasks = (status) => {
       });
    }
 };
-removeAllBtn.addEventListener("click",()=>{
-    taskList=taskList.filter(el=>el.isCompleted===false)
-    getTasks("All");
-})
+removeAllBtn.addEventListener("click", () => {
+   taskList = taskList.filter((el) => el.isCompleted === false);
+   localStorage.setItem("tasks", JSON.stringify(taskList));
+   getTasks("All");
+});
 statusButtons.forEach((statusBtn) => {
    statusBtn.addEventListener("click", () => {
       statusButtons.forEach((btn) => btn.classList.remove("activeBtn"));
@@ -89,3 +112,11 @@ statusButtons.forEach((statusBtn) => {
       getTasks(statusBtn.textContent);
    });
 });
+
+if (prefferedTheme === "light-mode") darkLightModeToggle();
+
+toggleBtn.addEventListener("click", () => {
+   darkLightModeToggle();
+});
+getTasks("All");
+tasksLeft.innerText = countActiveTasks();
