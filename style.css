@@ -35,6 +35,8 @@ button {
 header {
    width: 100%;
    padding: 4rem;
+   padding-left: 1rem;
+   padding-right: 1rem;
    background-image: url("images/bg-desktop-dark.jpg");
    background-size: cover;
    background-repeat: no-repeat;
@@ -54,6 +56,9 @@ header {
 }
 header h1 {
    letter-spacing: 8px;
+}
+main {
+   padding-bottom: 50px;
 }
 .create-task {
    display: flex;
@@ -100,7 +105,6 @@ label img {
    border-radius: 4px;
    margin: auto;
    margin-top: -50px;
-   margin-bottom: 50px;
 }
 .task {
    border-bottom: 1px solid var(--border-color);
@@ -169,4 +173,39 @@ body.light-mode {
    --border-color: hsl(236, 33%, 92%);
    --secondary-text-color: hsl(236, 9%, 61%);
    --checked-task-color: hsl(234, 39%, 85%);
+}
+
+@media screen and (max-width: 600px) {
+   header {
+      padding-left: 0;
+      padding-right: 0;
+      background-image: url("images/bg-mobile-dark.jpg");
+   }
+   .header-light-mode {
+      background-image: url("images/bg-mobile-light.jpg");
+   }
+   .task-container {
+      margin-top: -40px;
+      position: relative;
+      margin-bottom: 50px;
+   }
+   .task-status {
+      position: absolute;
+      bottom: -70px;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 1.2rem;
+      background-color: var(--bg-color-task);
+      border-radius: 4px;
+      width: 100%;
+   }
+   .task p {
+      max-width: 75%;
+   }
+   .remove-btn {
+      display: block;
+   }
 }
