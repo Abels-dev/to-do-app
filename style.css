@@ -111,6 +111,7 @@ label img {
    border-radius: 4px;
    margin: auto;
    margin-top: -50px;
+   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), 0 6px 6px rgba(0, 0, 0, 0.3);
 }
 .task {
    border-bottom: 1px solid var(--border-color);
@@ -174,6 +175,11 @@ label img {
 }
 .dragging {
    opacity: 0.5;
+}
+.hint-text{
+   color: var(--secondary-text-color);
+   margin: 30px auto;
+   width: fit-content;
 }
 body.light-mode {
    --bg-color: hsl(236, 33%, 92%);
