@@ -114,6 +114,7 @@ label img {
    align-items: center;
    color: var(--text-color-task);
    position: relative;
+   cursor: move;
 }
 .remove-btn {
    position: absolute;
@@ -122,9 +123,6 @@ label img {
 }
 .task button img {
    width: 15px;
-}
-.task:hover {
-   cursor: pointer;
 }
 .task:hover .remove-btn {
    display: block;
@@ -163,6 +161,9 @@ label img {
 }
 .options .activeBtn:hover {
    color: var(--bright-blue);
+}
+.dragging{
+   opacity: 0.5;
 }
 body.light-mode {
    --bg-color: hsl(236, 33%, 92%);

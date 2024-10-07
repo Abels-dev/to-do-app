@@ -12,7 +12,7 @@ let prefferedTheme = localStorage.getItem("theme") || "dark-mode";
 const renderTask = (id, text, isCompleted) => {
    taskContainer.innerHTML += ` <div class="task ${
       isCompleted ? "checked" : ""
-   }" id=${id}>
+   }" id=${id} draggable="true">
                   <label>
                      <input type="checkbox" />
                      <img src="images/icon-check.svg" />
@@ -78,6 +78,7 @@ taskContainer.addEventListener("click", (e) => {
       taskList.splice(id, 1);
       localStorage.setItem("tasks", JSON.stringify(taskList));
       getTasks("All");
+      allowDragAndDrop();
       tasksLeft.innerText = countActiveTasks();
    }
 });
@@ -104,17 +105,66 @@ removeAllBtn.addEventListener("click", () => {
    taskList = taskList.filter((el) => el.isCompleted === false);
    localStorage.setItem("tasks", JSON.stringify(taskList));
    getTasks("All");
+   allowDragAndDrop();
 });
 statusButtons.forEach((statusBtn) => {
    statusBtn.addEventListener("click", () => {
       statusButtons.forEach((btn) => btn.classList.remove("activeBtn"));
       statusBtn.classList.add("activeBtn");
       getTasks(statusBtn.textContent);
+      allowDragAndDrop();
    });
 });
 
 if (prefferedTheme === "light-mode") darkLightModeToggle();
 
+function allowDragAndDrop() {
+   setTimeout(() => {
+      let draggedItem = null;
+      taskContainer.querySelectorAll(".task").forEach((task) => {
+         task.addEventListener("dragstart", function (e) {
+            draggedItem = this;
+            setTimeout(() => this.classList.add("dragging"), 0);
+         });
+         task.addEventListener("dragend", function () {
+            setTimeout(() => {
+               this.classList.remove("dragging");
+               draggedItem = null;
+            }, 0);
+         });
+         task.addEventListener("dragover", function (e) {
+            e.preventDefault();
+            const afterElement = getDragAfterElement(taskContainer, e.clientY);
+            if (afterElement == null) {
+               taskContainer.appendChild(draggedItem);
+            } else {
+               taskContainer.insertBefore(draggedItem, afterElement);
+            }
+         });
+      });
+
+      function getDragAfterElement(container, y) {
+         const draggableElements = [
+            ...container.querySelectorAll(".task:not(.dragging)"),
+         ];
+
+         return draggableElements.reduce(
+            (closest, child) => {
+               const box = child.getBoundingClientRect();
+               const offset = y - box.top - box.height / 2;
+               if (offset < 0 && offset > closest.offset) {
+                  return { offset: offset, element: child };
+               } else {
+                  return closest;
+               }
+            },
+            { offset: Number.NEGATIVE_INFINITY }
+         ).element;
+      }
+   }, 100);
+}
+
+allowDragAndDrop();
 toggleBtn.addEventListener("click", () => {
    darkLightModeToggle();
 });
