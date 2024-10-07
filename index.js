@@ -44,6 +44,7 @@ const countActiveTasks = () => {
 };
 const addTasks = () => {
    renderTask(taskList.length, addedTask.value, false);
+   allowDragAndDrop();
    taskList.push({ task: addedTask.value, isCompleted: false });
    localStorage.setItem("tasks", JSON.stringify(taskList));
    tasksLeft.innerText = countActiveTasks();
