@@ -28,4 +28,4 @@ Users should be able to:
 
 ### Preview
 
-- [To-do-App](https://abels-dev.github.io/to-do-app/)
+- [To-do-App](https://to-do-app-five-green.vercel.app/)
